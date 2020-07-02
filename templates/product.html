@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Market - {{ object.name }}{% endblock title %}
+{% block content %}
+    <div class="site-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{{ object.image.url }}" class="img-fluid">
+                </div>
+                <div class="col-md-6">
+                    <h2 class="text-black">{{ object.name }}</h2>
+                    <h5>{{ object.description }}</h5>
+                    <div class="text-justify">
+                        <div class="d-none d-md-block">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores hic inventore
+                                nulla
+                                sapiente! Atque dolorem nulla quae rem suscipit! Cum eaque esse explicabo? Ab eos error,
+                                facere
+                                libero minima quisquam reprehenderit! Adipisci aperiam architecto, assumenda dolorem,
+                                doloremque
+                                error expedita fugiat harum impedit laboriosam mollitia quas, quidem quisquam sit
+                                tempora?</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, animi, consequuntur culpa
+                                dicta esse illum ipsam magni modi nemo nisi nobis nulla, officiis quis sequi suscipit
+                                unde vel! Assumenda in ipsam ipsum iure nam odio, suscipit velit voluptatem! Dicta error
+                                explicabo impedit natus omnis quasi reiciendis similique temporibus veniam, voluptatum!
+                                Ea enim eveniet maiores molestias nihil, porro praesentium tenetur veniam.</p>
+                        </div>
 
-</body>
-</html>
+
+                    </div>
+
+
+                    <p><strong class="text-primary h4">${{ object.price }}.00</strong></p>
+
+                    <p><a href="#" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

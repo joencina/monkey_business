@@ -6,7 +6,7 @@ from market_project.models import Product
 
 @pytest.fixture
 def product():
-    return Product.objects.create(name='test', price=1, image='', description='')
+    return Product.objects.create(name='test', price=1, image='bread.png', description='')
 
 
 @pytest.mark.django_db
