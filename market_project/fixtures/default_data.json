@@ -1,0 +1,57 @@
+[
+  {
+    "model": "market_project.product",
+    "pk": 1,
+    "fields": {
+      "name": "Hungover Pineapple",
+      "price": 5,
+      "description": "A grossly dehydrated pineapple pretending to be fine",
+      "featured": true,
+      "image": "pineapple.png"
+    }
+  },
+  {
+    "model": "market_project.product",
+    "pk": 2,
+    "fields": {
+      "name": "Half-eaten pie",
+      "price": 10,
+      "description": "Half the product, half the price",
+      "featured": true,
+      "image": "pie.png"
+    }
+  },
+  {
+    "model": "market_project.product",
+    "pk": 3,
+    "fields": {
+      "name": "One and a half tomato",
+      "price": 2,
+      "description": "One and a half the fun",
+      "featured": true,
+      "image": "tomatoes.png"
+    }
+  },
+  {
+    "model": "market_project.product",
+    "pk": 4,
+    "fields": {
+      "name": "Underwhelming costume",
+      "price": 15,
+      "description": "Fully recycled",
+      "featured": true,
+      "image": "costume.png"
+    }
+  },
+  {
+    "model": "market_project.product",
+    "pk": 5,
+    "fields": {
+      "name": "Expired Bread",
+      "price": 7,
+      "description": "This bread was made in 2007",
+      "featured": true,
+      "image": "bread.png"
+    }
+  }
+]

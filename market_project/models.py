@@ -1,21 +1,28 @@
 from django.db import models
 
 
-class Orders(models.Model):
+class Product(models.Model):
+    name = models.CharField(max_length=200)
+    price = models.IntegerField()
+    description = models.CharField(max_length=200, default='')
+    featured = models.BooleanField(default=False)
+    orders = models.ManyToManyField('Order', related_name='orders', through='ProductOrder')
+    image = models.ImageField()
+
+    def __str__(self):
+        return self.name
+
+
+class Order(models.Model):
     customer_name = models.CharField(max_length=200)
     customer_address = models.CharField(max_length=200)
     order_date = models.DateTimeField()
-    product = models.ManyToManyField('Products', through='OrdersProducts')
+    products = models.ManyToManyField('Product', related_name='products', through='ProductOrder')
+
+    def __str__(self):
+        return str(self.order_date)
 
 
-class Products(models.Model):
-    name = models.CharField(max_length=200)
-    price = models.IntegerField()
-    units_in_stock = models.IntegerField()
-    units_on_order = models.IntegerField()
-    order = models.ManyToManyField('Orders', through='OrdersProducts')
-
-
-class OrdersProducts(models.Model):
-    order = models.ForeignKey(Orders, on_delete=models.CASCADE)
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+class ProductOrder(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
