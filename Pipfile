@@ -16,6 +16,8 @@ pytest-django = "*"
 factory-boy = "*"
 django-environ = "*"
 stringgenerator = "*"
+pytest-factoryboy = "*"
+pytest-factoryboy-fixtures = "*"
 
 [requires]
 python_version = "3.8"

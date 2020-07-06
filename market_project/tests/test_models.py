@@ -1,39 +1,32 @@
 import pytest
-from django.utils.datetime_safe import datetime
+from market_project.models import ProductOrder
 
-from market_project.models import Product, Order, ProductOrder
 
-@pytest.fixture
-def product():
-    return Product.objects.create(name='Test Product', price=10, image='', description='')
-@pytest.fixture
-def second_product():
-    return Product.objects.create(name='Other Product', price=5, image='', description='')
+# DONE: conftest.py
+# TODO: GAE won't work. Amazon S3 for static files. Look up which one's easiest
 
-@pytest.fixture
-def order():
-    return Order.objects.create(customer_name='Foo', customer_address='Bar', order_date=datetime.now())
+# Next: flash card app
+# DONE: Check out factory boy
+# DONE: After checking out the docs, look up pytest-factoryboy-fixtures
 
 @pytest.mark.django_db
 def test_product_fixture(product):
     assert str(product) == product.name
-    assert product.price == 10
     assert type(product.price) == int
-    assert product.featured == False
+    assert product.featured is False
 
 
 @pytest.mark.django_db
 def test_second_product_fixture(second_product):
     assert str(second_product) == second_product.name
-    assert second_product.price == 5
     assert type(second_product.price) == int
-    assert second_product.featured == False
+    assert second_product.featured is False
+
 
 @pytest.mark.django_db
 def test_order_info(order):
-    assert order.customer_name == 'Foo'
-    assert order.customer_address == 'Bar'
     assert str(order) == str(order.order_date)
+
 
 @pytest.mark.django_db
 def test_order_creation(order, product, second_product):
