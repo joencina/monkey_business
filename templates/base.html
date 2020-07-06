@@ -24,7 +24,6 @@
 
   <body>
   <div class="site-wrap">
-{% block header %}
 
     <header class="site-navbar" role="banner">
       <div class="site-navbar-top">
@@ -48,7 +47,8 @@
                   <li>
                     <a href="cart.html" class="site-cart">
                       <span class="icon icon-shopping_cart"></span>
-                      <span class="count">2</span>
+{#                      <span class="count">2</span>#}
+                        {% block cart_items %}{% endblock cart_items%}
                     </a>
                   </li>
                   <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
@@ -63,7 +63,7 @@
         <div class="container">
           <ul class="site-menu js-clone-nav d-none d-md-block">
             <li class="active">
-              <a href="index.html">Home</a>
+              <a href="{% url 'index' %}">Home</a>
             </li>
             <li><a href="#">Foo</a></li>
             <li><a href="#">Bar</a></li>
@@ -73,7 +73,6 @@
         </div>
       </nav>
     </header>
-{% endblock header %}
   </div>
 {% block content %}{% endblock content %}
 {% block footer %}

@@ -13,6 +13,9 @@ pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
 pytest-django = "*"
+factory-boy = "*"
+django-environ = "*"
+stringgenerator = "*"
 
 [requires]
 python_version = "3.8"

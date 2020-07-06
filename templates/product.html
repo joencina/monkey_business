@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Market - {{ object.name }}{% endblock title %}
+{% block cart_items %}<span class="count">{{ total }}</span>{% endblock cart_items%}
 {% block content %}
     <div class="site-section">
         <div class="container">
@@ -32,9 +33,11 @@
                     </div>
 
 
-                    <p><strong class="text-primary h4">${{ object.price }}.00</strong></p>
+                    <p><strong class="text-primary h4">${{ product.price }}.00</strong></p>
 
-                    <p><a href="#" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+                    <p><a href="{% url 'add_to_cart' product.id %}" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+
+
 
 
                 </div>
