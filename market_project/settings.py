@@ -26,7 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'market_project.apps.MarketProjectConfig'
+    'market_project.apps.MarketProjectConfig',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -163,3 +164,13 @@ elif not os.getenv('GAE_APPLICATION', None) and not sqlite:
             'PASSWORD': ENV('DB_PASSWORD'),
         }
     }
+
+# #S3 BUCKETS CONFIG
+#
+# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
