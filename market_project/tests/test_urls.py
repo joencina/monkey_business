@@ -1,7 +1,7 @@
 import pytest
 from django import urls
 
-url_list = [('index', b'Market'), ('shop', b'Shop'), ('cart', b'Cart')]
+url_list = [('index', b'Market'), ('shop', b'Shop'), ('cart', b'Cart'), ('checkout', b'Checkout')]
 
 
 @pytest.mark.parametrize("url_name, text", url_list)

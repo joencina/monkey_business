@@ -15,4 +15,5 @@ urlpatterns = [
 
                   path('shop', views.Shop.as_view(), name='shop'),
                   path('cart', views.Cart.as_view(), name='cart'),
+                  path('checkout', views.Checkout.as_view(), name='checkout'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

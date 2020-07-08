@@ -49,9 +49,25 @@ class Cart(ListView, CartMixin):
     model = ProductOrder
     template_name = "cart.html"
 
-    def get_queryset(self):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         order = get_order(self.request)
-        return ProductOrder.objects.filter(order__user_id=order.user_id)
+        order_products = order.products.all()
+        context['total'] = order.total
+        context['products'] = order_products
+
+        total_price = 0
+        for product in order_products:
+            po = ProductOrder.objects.get(order=order, product=product)
+            product.products_on_order = po.products_on_order
+            product.subtotal = po.products_on_order * product.price
+            total_price += product.subtotal
+        context['total_price'] = total_price
+        return context
+
+
+class Checkout(Cart):
+    template_name = 'checkout.html'
 
 
 class SingleProduct(DetailView, CartMixin):

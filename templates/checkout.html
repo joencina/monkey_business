@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Market - Checkout{% endblock title %}
+{% block cart_items %}
+    {% if total > 0 %}
+        <span class="count">{{ total }}</span>
+    {% endif %}
+{% endblock cart_items %}
+{% block content %}
+    {% if products.count %}
+        <div class="bg-light py-3">
+            <div class="container">
+                <div class="row ml-lg-5">
+                    <div class="col-md-12 mb-0"><strong><h4>Checkout</h4></strong></div>
+                </div>
+            </div>
+        </div>
+        <div class="site-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 mb-5 mb-md-0">
+                        <h2 class="h3 mb-3 text-black">Billing Details</h2>
+                        <div class="p-3 p-lg-5 border">
+
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="c_companyname" class="text-black">Name </label>
+                                    <input type="text" class="form-control" id="c_companyname" name="c_companyname">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="c_address" name="c_address"
+                                           placeholder="Street address">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row mb-5">
+                                <div class="col-md-12">
+                                    <label for="c_email_address" class="text-black">Email Address <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="c_email_address" name="c_email_address">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="c_order_notes" class="text-black">Order Notes</label>
+                                <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5"
+                                          class="form-control" placeholder="Write your notes here..."></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="row mb-5">
+                            <div class="col-md-12">
+                                <h2 class="h3 mb-3 text-black">Your Order</h2>
+                                <div class="p-3 p-lg-5 border">
+                                    <table class="table site-block-order-table mb-5">
+                                        <thead>
+                                        <th>Product</th>
+                                        <th>Total</th>
+                                        </thead>
+                                        <tbody>
+                                        {% for product in products %}
+                                            <tr>
+                                                <td>{{ product.name }} <strong
+                                                        class="mx-2">x</strong> {{ product.products_on_order }}</td>
+                                                <td>${{ product.subtotal }}</td>
+                                            </tr>
+
+                                        {% endfor %}
+
+                                        <tr>
+                                            <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                                            <td class="text-black font-weight-bold"><strong>${{ total_price }}</strong></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-lg py-3 btn-block"
+                                                onclick="window.location='thankyou.html'">Place Order
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- </form> -->
+            </div>
+        </div>
+
+    {% else %}
+        <div class="container ">
+            <div class="row justify-content-center ">
+                <div class="col-auto mt-5 ">
+                    <h1>Your cart is empty.</h1>
+                </div>
+
+            </div>
+            <div class="col-auto mt-5 ">
+            </div>
+        </div>
+
+    {% endif %}
+
+{% endblock content %}
