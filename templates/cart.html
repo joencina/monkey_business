@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Market - Shop{% endblock title %}
+{% block cart_items %}
+    {% if total > 0 %}
+        <span class="count">{{ total }}</span>
+    {% endif %}
+{% endblock cart_items %}
+{% block content %}
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Cart</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row mb-5 justify-content-center">
+            <div class="col-lg-auto">
+                <div class="site-blocks-table table-responsive">
+              <table class="table-bordered">
+                <thead>
+                  <tr>
+                    <th class="product-thumbnail d-none d-lg-table-cell" >Image</th>
+                    <th class="product-name ">Product</th>
+                    <th class="product-price d-none d-lg-table-cell">Price</th>
+                    <th class="product-quantity">Quantity</th>
+                    <th class="product-total">Total</th>
+                    <th class="product-remove">Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+
+                  <tr>
+                    <td class="product-thumbnail d-none d-lg-table-cell">
+                      <img src="{{ product.image.url }}" alt="{{ product.description }}" class="img-fluid"
+                           style="max-height: 150px; width: fit-content;object-fit: cover">
+                    </td>
+                    <td class="product-name ">
+                      <h2 class="h5 text-black">{{ product.name }}</h2>
+                    </td>
+                    <td class="d-none d-lg-table-cell">${{ product.price }}</td>
+                    <td >
+                      <div class="input-group mb-3" style="max-width: 120px; margin: auto">
+                        <div class="input-group-prepend">
+                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                        </div>
+                          {% for productorder in productorder_list %}
+                              {% if productorder.product_id == product.id %}
+                                  <input type="text" class="form-control text-center" value="{{ productorder.products_on_order }}"
+                                         style="background-color: white;" readonly>
+                              {% endif %}
+
+                          {% endfor %}
+
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-primary js-btn-plus "  type="button">&plus;</button>
+                        </div>
+                      </div>
+
+                    </td>
+                    <td>${{ product.price }}</td>
+                    <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
+                  </tr>
+                {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+
+            </div>
+
+        </div>
+
+        <div class="row justify-content-end">
+          <div class="col-auto">
+            <div class="row ">
+              <div class="col">
+                <div class="row">
+                  <div class="col-md-12 text-right border-bottom mb-5">
+                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <span class="text-black">Subtotal</span>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <strong class="text-black">$230.00</strong>
+                  </div>
+                </div>
+                <div class="row mb-5">
+                  <div class="col-md-6">
+                    <span class="text-black">Total</span>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <strong class="text-black">$230.00</strong>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+            <div class="col-lg-1"></div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+{#{% block extra_javascript %}<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>#}
+{#{% endblock extra_javascript %}#}

@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Market - {{ object.name }}{% endblock title %}
-{% block cart_items %}<span class="count">{{ total }}</span>{% endblock cart_items%}
+{% block cart_items %}
+    {% if total > 0 %}
+        <span class="count">{{ total }}</span>
+    {% endif %}
+{% endblock cart_items %}
 {% block content %}
     <div class="site-section">
         <div class="container">

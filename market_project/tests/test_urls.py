@@ -1,31 +1,26 @@
 import pytest
 from django import urls
 
-from market_project.models import Product
+url_list = [('index', b'Market'), ('shop', b'Shop'), ('cart', b'Cart')]
 
 
-@pytest.fixture
-def product():
-    return Product.objects.create(name='test', price=1, image='bread.png', description='')
-
-
+@pytest.mark.parametrize("url_name, text", url_list)
 @pytest.mark.django_db
-def test_index(client):
+def test_list_pages(client, url_name, text):
     """
-    Verifies that home page renders correctly
+    Verifies that pages render correctly
     """
-    url = urls.reverse('index')
+    url = urls.reverse(url_name)
     response = client.get(url)
     assert response.status_code == 200
-    assert b'Market' in response.content
+    assert text in response.content
 
 
 @pytest.mark.django_db
 def test_single_product(client, product):
     """
-    Verifies that single product page renders correctly
+    Verifies that the single product page renders correctly
     """
     url = urls.reverse('single_product', args=(product.id,))
     response = client.get(url)
-    print(response)
     assert response.status_code == 200

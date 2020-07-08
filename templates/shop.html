@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Market - Shop{% endblock title %}
+{% block cart_items %}
+    {% if total > 0 %}
+        <span class="count">{{ total }}</span>
+    {% endif %}
+{% endblock cart_items %}
+{% block content %}
+
+    <div class="site-section">
+        <div class="container">
+
+            <div class="row">
+                <div class="col">
+
+                    <div class="row">
+                        <div class="col-md-12 mb-5">
+                            <div class="float-md-left mb-4"><h2 class="text-black h5">Catalog</h2></div>
+                            <div class="d-flex">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+
+                        {% for product in product_list %}
+                            <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+                                <div class="block-4 text-center border">
+                                    <figure class="block-4-image">
+                                        <a href="shop-single.html"><img src="{{ product.image.url }}" alt="{{ product.description }}"
+                                                                        class="img-fluid" style="height: 300px; width: fit-content ;object-fit: cover"></a>
+                                    </figure>
+                                    <div class="block-4-text p-4">
+                                        <h3><a href="{% url 'single_product' product.id %}">{{ product.name }}</a></h3>
+                                        <p class="mb-0">{{ product.description }}</p>
+                                        <p class="text-primary font-weight-bold">${{ product.price }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+
+
+                    </div>
+                    <div class="row" data-aos="fade-up">
+                        <div class="col-md-12 text-center">
+                            <div class="site-block-27">
+                                <ul>
+                                    <li><a href="#">&lt;</a></li>
+                                    <li class="active"><span>1</span></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#">&gt;</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+{% endblock content %}
