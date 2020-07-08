@@ -27,9 +27,16 @@ def test_order_info(order):
 
 
 @pytest.mark.django_db
-def test_order_creation(order, product, second_product):
-    ProductOrder(order=order, product=product).save()
-    ProductOrder(order=order, product=second_product).save()
+def test_order_creation_and_deletion(order, product, second_product):
+    po = ProductOrder(order=order, product=product)
+    po.save()
+    po2 = ProductOrder(order=order, product=second_product)
+    po2.save()
     assert order.products.count() == 2
     assert order.products.all()[0] == product
     assert order.products.all()[1] == second_product
+    po.delete()
+    assert order.products.count() == 1
+    po2.delete()
+    assert order.products.count() == 0
+
