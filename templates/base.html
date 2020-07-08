@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
-{#    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">#}
     <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
 
 
@@ -47,7 +46,7 @@
                             <ul>
                                 <li><a href="#"><span class="icon icon-person"></span></a></li>
                                 <li>
-                                    <a href="cart.html" class="site-cart">
+                                    <a href="{% url 'cart' %}" class="site-cart">
                                         <span class="icon icon-shopping_cart"></span>
                                         {#                      <span class="count">2</span>#}
                                         {% block cart_items %}{% endblock cart_items %}

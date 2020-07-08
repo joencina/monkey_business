@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Market - Shop{% endblock title %}
+{% block title %}Market - Cart{% endblock title %}
 {% block cart_items %}
     {% if total > 0 %}
         <span class="count">{{ total }}</span>
     {% endif %}
 {% endblock cart_items %}
 {% block content %}
-    <div class="bg-light py-3">
+    {% if products.count %}
+        <div class="bg-light py-3">
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Cart</strong></div>
@@ -39,14 +40,14 @@
                       <img src="{{ product.image.url }}" alt="{{ product.description }}" class="img-fluid"
                            style="max-height: 150px; width: fit-content;object-fit: cover">
                     </td>
-                    <td class="product-name ">
+                    <td class="product-name">
                       <h2 class="h5 text-black">{{ product.name }}</h2>
                     </td>
                     <td class="d-none d-lg-table-cell">${{ product.price }}</td>
                     <td >
-                      <div class="input-group mb-3" style="max-width: 120px; margin: auto">
+                      <div class="input-group" style="max-width: 120px; margin: auto">
                         <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                          <a href="{% url 'remove_one_from_cart' product.id %}" class="btn btn-outline-primary" type="button">&minus;</a>
                         </div>
                           {% for productorder in productorder_list %}
                               {% if productorder.product_id == product.id %}
@@ -57,13 +58,13 @@
                           {% endfor %}
 
                         <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus "  type="button">&plus;</button>
+                          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-outline-primary">&plus;</a>
                         </div>
                       </div>
 
                     </td>
                     <td>${{ product.price }}</td>
-                    <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
+                    <td><a href="{% url 'delete_product_from_cart' product.id %}" class="btn btn-primary btn-sm">X</a></td>
                   </tr>
                 {% endfor %}
 
@@ -113,6 +114,20 @@
         </div>
       </div>
     </div>
+        {% else %}
+        <div class="container ">
+        <div class="row justify-content-center ">
+            <div class="col-auto mt-5 ">
+                <h1>Your cart is empty.</h1>
+            </div>
+
+        </div>
+                    <div class="col-auto mt-5 ">
+            </div>
+        </div>
+
+    {% endif %}
+
 {% endblock content %}
 {#{% block extra_javascript %}<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>#}
 {#{% endblock extra_javascript %}#}

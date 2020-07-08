@@ -25,7 +25,6 @@ class Order(models.Model):
     products = models.ManyToManyField('Product', related_name='products', through='ProductOrder')
     total = models.IntegerField(default=0)
 
-
     def __str__(self):
         return str(self.order_date)
 
@@ -34,4 +33,4 @@ class Order(models.Model):
 class ProductOrder(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    products_on_order = models.IntegerField(default=1)
+    products_on_order = models.IntegerField(default=0)
