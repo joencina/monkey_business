@@ -3,9 +3,7 @@ from market_project.models import ProductOrder
 
 
 # DONE: conftest.py
-# TODO: GAE won't work. Amazon S3 for static files. Look up which one's easiest
-
-# Next: flash card app
+# DONE: GAE won't work. Amazon S3 for static files. Look up which one's easiest
 # DONE: Check out factory boy
 # DONE: After checking out the docs, look up pytest-factoryboy-fixtures
 
