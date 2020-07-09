@@ -1,3 +1,5 @@
+import os
+
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -85,7 +87,7 @@ class Checkout(FormView, Cart):
         content = f"{name} just made an order to be shipped to {address} consisting of the following:\n"
         html = f"""<strong>{name}</strong> just made an order to be shipped to
                      <strong>{address}</strong> consisting of the following:
-                    <h3>{name}'s Order</h3>
+                    <h3>Billing details</h3>
                     <table><thead><th style='text-align:left'>Product</th>
                     <th style='text-align:center'>Total</th></thead><tbody>"""
         total_price = 0
@@ -105,8 +107,17 @@ class Checkout(FormView, Cart):
             html += f"<h3>Additional comments:</h3><p>{message}</p>"
             content += f"\n\nAdditional comments:\n{message}"
 
-        send_mail(f'Order received from {name}', content, 'noreply@encina.xyz', [f"{email}"], html_message=html,
-                  fail_silently=False)
+        # Send email to store owner
+
+        send_mail(f'Order received from {name}', content, 'noreply@encina.xyz', [os.getenv("STORE_OWNER_EMAIL")],
+                  html_message=html, fail_silently=False)
+
+        # Send email to costumer
+        html_costumer = html.replace(f"<strong>{name}</strong>", "You")
+        content_client = content.replace(f"{name}", "You")
+
+        send_mail(f'Congratulations! We received your order.', content_client, 'noreply@encina.xyz', [f"{email}"],
+                  html_message=html_costumer, fail_silently=False)
 
         return HttpResponseRedirect(reverse_lazy('thank_you'))
 
