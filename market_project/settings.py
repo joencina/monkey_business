@@ -11,8 +11,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-sqlite = True
+AWS = os.getenv('AWS', default=False)
+DEBUG = os.getenv('DJANGO_DEBUG')
+sqlite = os.getenv('SQLITE', default=True)
 
 ALLOWED_HOSTS = ['*']
 
@@ -114,24 +115,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Production settings
 if os.getenv('GAE_APPLICATION', None):
-    """
-    Remember to manage your migrations. To do it you should follow this steps:
-    
-    - Enable the Cloud SQL Admin API: Before using Cloud SQL in your dev machine,
-      you must enable the Cloud SQL Admin API
-     
-     $ gcloud services enable sqladmin
-     
-    - Once the Cloud SQL Admin API is enabled you must use the cloud_sql_proxy script to connect to the database 
-      production. You can find this script under /market_project/cloud_sql_proxy
-      
-      $ chmod +x cloud_sql_proxy  # make sure the script can execute
-      $ ./cloud_sql_proxy -instances="market-281902:us-central1:market-db"=tcp:5432
-      
-    
-    - At this point, you will be able to update your database executing the migrations:
-      $ python manage.py migrate
-    """
 
     DEBUG = False
 
@@ -165,11 +148,11 @@ SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 # S3 BUCKETS CONFIG
-
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+if AWS:
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = None
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
