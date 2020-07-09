@@ -1,10 +1,10 @@
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.utils.datetime_safe import datetime
 from django.views.generic import ListView, DetailView, FormView
-from django.views.generic.base import ContextMixin, View, TemplateView
+from django.views.generic.base import ContextMixin, TemplateView
 from strgen import StringGenerator
 
 from market_project.forms import CheckoutForm
