@@ -27,8 +27,10 @@
                             <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                                 <div class="block-4 text-center border">
                                     <figure class="block-4-image">
-                                        <a href="{% url 'single_product' product.id %}"><img src="{{ product.image.url }}" alt="{{ product.description }}"
-                                                                        class="img-fluid" style="height: 300px; width: fit-content ;object-fit: cover"></a>
+                                        <a href="{% url 'single_product' product.id %}"><img
+                                                src="{{ product.image.url }}" alt="{{ product.description }}"
+                                                class="img-fluid"
+                                                style="height: 300px; width: fit-content ;object-fit: cover"></a>
                                     </figure>
                                     <div class="block-4-text p-4">
                                         <h3><a href="{% url 'single_product' product.id %}">{{ product.name }}</a></h3>
@@ -41,23 +43,41 @@
                         {% endfor %}
 
 
+                    </div>
+                    {#        Pagination#}
+                    {% if is_paginated %}
+                        <div class="row" data-aos="fade-up">
+                            <div class="col-md-12 text-center">
+                                <div class="site-block-27">
+                                    <ul>
+                                        {% if page_obj.has_previous %}
+                                            <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+                                        {% else %}
+                                            <li><a href="#">&lt;</a></li>
+                                        {% endif %}
+                                        {#          Middle numbers#}
+                                        {% for num in paginator.page_range %}
+                                            {% if page_obj.number == num %}
+                                                <li class="active"><span>{{ num }}</span></li>
+                                            {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+                                                <li><a href="?page={{ num }}">{{ num }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {#        Next#}
+                                        {% if page_obj.has_next %}
 
-                    </div>
-                    <div class="row" data-aos="fade-up">
-                        <div class="col-md-12 text-center">
-                            <div class="site-block-27">
-                                <ul>
-                                    <li><a href="#">&lt;</a></li>
-                                    <li class="active"><span>1</span></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#">&gt;</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                                            <li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+                                        {% else %}
+                                            <li><a href="#">&gt;</a></li>
+
+
+                                            </ul>
+                                            </div>
+                                            </div>
+                                            </div>
+                                        {% endif %}
+                    {% endif %}
+
                 </div>
 
             </div>

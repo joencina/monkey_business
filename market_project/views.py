@@ -46,6 +46,7 @@ class Index(ListView, CartMixin):
 class Shop(ListView, CartMixin):
     model = Product
     template_name = "shop.html"
+    paginate_by = 9
 
 
 class Cart(ListView, CartMixin):
