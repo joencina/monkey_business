@@ -27,7 +27,7 @@
                             <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                                 <div class="block-4 text-center border">
                                     <figure class="block-4-image">
-                                        <a href="shop-single.html"><img src="{{ product.image.url }}" alt="{{ product.description }}"
+                                        <a href="{% url 'single_product' product.id %}"><img src="{{ product.image.url }}" alt="{{ product.description }}"
                                                                         class="img-fluid" style="height: 300px; width: fit-content ;object-fit: cover"></a>
                                     </figure>
                                     <div class="block-4-text p-4">

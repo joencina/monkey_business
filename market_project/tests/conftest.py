@@ -5,7 +5,6 @@ register(factories.ProductFactory)
 register(factories.ProductFactory, "second_product")
 register(factories.OrderFactory)
 
-
 # from pytest import fixture
 # from typing import Union, Type
 # from market_project.tests.factories import ProductFactory, OrderFactory

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Market - Thank you{% endblock title %}
+{% block content %}
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h2 class="display-3 text-black">Thank you! <span class="fas fa-check-circle display-3 text-success"></span></h2>
+            <p class="lead mb-5">Your order was successfully completed.</p>
+            <p><a href="{% url 'shop' %}" class="btn btn-sm btn-primary">Back to catalog</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}

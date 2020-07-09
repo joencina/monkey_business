@@ -20,6 +20,7 @@ pytest-factoryboy = "*"
 pytest-factoryboy-fixtures = "*"
 django-storages = "*"
 boto3 = "*"
+django-sendgrid-v5 = "*"
 
 [requires]
 python_version = "3.8"

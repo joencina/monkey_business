@@ -1,10 +1,13 @@
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.urls import reverse, reverse_lazy
 from django.utils.datetime_safe import datetime
-from django.views.generic import ListView, DetailView
-from django.views.generic.base import ContextMixin
+from django.views.generic import ListView, DetailView, FormView
+from django.views.generic.base import ContextMixin, View, TemplateView
 from strgen import StringGenerator
 
+from market_project.forms import CheckoutForm
 from market_project.models import Product, Order, ProductOrder
 
 
@@ -66,8 +69,49 @@ class Cart(ListView, CartMixin):
         return context
 
 
-class Checkout(Cart):
+class Checkout(FormView, Cart):
+    form_class = CheckoutForm
     template_name = 'checkout.html'
+
+    def form_valid(self, form):
+        order = get_order(self.request)
+        order_products = order.products.all()
+
+        name = self.request.POST.get('name')
+        address = self.request.POST.get('address')
+        email = self.request.POST.get('email')
+        message = self.request.POST.get('message')
+        content = f"{name} just made an order to be shipped to {address} consisting of the following:\n"
+        html = f"""<strong>{name}</strong> just made an order to be shipped to
+                     <strong>{address}</strong> consisting of the following:
+                    <h3>{name}'s Order</h3>
+                    <table><thead><th style='text-align:left'>Product</th>
+                    <th style='text-align:center'>Total</th></thead><tbody>"""
+        total_price = 0
+        for product in order_products:
+            po = ProductOrder.objects.get(order=order, product=product)
+            product.subtotal = po.products_on_order * product.price
+            total_price += product.subtotal
+            content += f"{po.products_on_order} x {product.name} (at ${product.price} each) = ${product.subtotal}\n"
+            html += f"""<tr><td>{product.name}<strong class="mx-2"> &times; </strong>{po.products_on_order}</td>
+                        <td>${product.subtotal}</td></tr>"""
+            cart_operations(self.request, product.pk, operation="delete")
+        content += f"Total: ${total_price}"
+
+        html += f"""<tr><td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                    <td class="text-black font-weight-bold"><strong>${total_price}</strong></td></tr></tbody></table>"""
+        if message:
+            html += f"<h3>Additional comments:</h3><p>{message}</p>"
+            content += f"\n\nAdditional comments:\n{message}"
+
+        send_mail(f'Order received from {name}', content, 'noreply@encina.xyz', [f"{email}"], html_message=html,
+                  fail_silently=False)
+
+        return HttpResponseRedirect(reverse_lazy('thank_you'))
+
+
+class ThankYou(TemplateView):
+    template_name = 'thank_you.html'
 
 
 class SingleProduct(DetailView, CartMixin):
