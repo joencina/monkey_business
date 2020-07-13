@@ -2,11 +2,6 @@ import pytest
 from market_project.models import ProductOrder
 
 
-# DONE: conftest.py
-# DONE: GAE won't work. Amazon S3 for static files. Look up which one's easiest
-# DONE: Check out factory boy
-# DONE: After checking out the docs, look up pytest-factoryboy-fixtures
-
 @pytest.mark.django_db
 def test_product_fixture(product):
     assert str(product) == product.name
