@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.datetime_safe import datetime
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.base import ContextMixin, TemplateView
@@ -80,10 +81,11 @@ class Checkout(FormView, Cart):
     template_name = 'checkout.html'
 
     def form_valid(self, form):
-        order_products = get_order(self.request).products.all()
+        order = get_order(self.request)
+        order_products = order.products.all()
         total_price = 0
         for product in order_products:
-            po = ProductOrder.objects.get(order=(get_order(self.request)), product=product)
+            po = ProductOrder.objects.get(order=order, product=product)
             product.products_on_order = po.products_on_order
             product.subtotal = po.products_on_order * product.price
             total_price += product.subtotal
@@ -109,7 +111,10 @@ class Checkout(FormView, Cart):
                   html_message=(render_to_string('email_costumer.html', params)),
                   fail_silently=False)
 
-        get_order(self.request).products.clear()
+        order.order_date = timezone.now()
+        order.completed = True
+        order.save()
+        self.request.session['user_id'] = StringGenerator('[\w\p\d]{32}').render()
 
         return HttpResponseRedirect(reverse_lazy('thank_you'))
 

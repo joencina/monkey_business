@@ -32,9 +32,9 @@ class Order(models.Model):
     message = models.CharField(null=True, max_length=5000)
     products = models.ManyToManyField('Product', related_name='products')
     total = models.IntegerField(default=0)
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(f"{self.customer_name}, Total: {self.total}, on {self.order_date.strftime('%m/%d/%Y')}")
-
+        return f"{self.customer_name}, Total: {self.total}, on {self.order_date.strftime('%m/%d/%Y')}"
 
 

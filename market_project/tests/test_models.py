@@ -1,7 +1,6 @@
 from decimal import Decimal
 
 import pytest
-from market_project.models import ProductOrder
 
 pytestmark = pytest.mark.django_db
 
@@ -19,14 +18,11 @@ def test_second_product_fixture(second_product):
 
 
 def test_order_creation_and_deletion(order, product, second_product):
-    po = ProductOrder(order=order, product=product)
-    po.save()
-    po2 = ProductOrder(order=order, product=second_product)
-    po2.save()
+    order.products.add(product, second_product)
     assert order.products.count() == 2
     assert order.products.all()[0] == product
     assert order.products.all()[1] == second_product
-    po.delete()
+    order.products.remove(product)
     assert order.products.count() == 1
-    po2.delete()
+    order.products.remove(second_product)
     assert order.products.count() == 0
