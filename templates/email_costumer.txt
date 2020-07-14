@@ -1,0 +1,12 @@
+You just made an order to be shipped to {{address}} consisting of the following:
+
+{% for product in products %}
+    {{product.products_on_order}} x {{product.name}} (at ${{product.price}} each) = ${{product.subtotal}}
+{% endfor %}
+
+Total: ${{total_price}}
+
+{% if message %}
+    Additional comments:
+    {{ message }}
+{% endif %}

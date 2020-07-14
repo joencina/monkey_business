@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<strong>{{ name }}</strong> just made an order to be shipped to
+<strong>{{ address }}</strong> consisting of the following:
+<h3>Billing details</h3>
+<table>
+    <thead>
+    <th style='text-align:left'>Product</th>
+    <th style='text-align:center'>Total</th>
+    </thead>
+    <tbody>
+    {% for product in products %}
+        <tr>
+            <td>{{ product.name }} ({{ product.products_on_order }})</td>
+            <td>${{ product.subtotal }}</td>
+        </tr>
+    {% endfor %}
+
+    {% if message %}
+        <h3>Additional comments:</h3>
+        <p>{{ message }}</p>
+    {% endif %}
+
+
+</body>
+</html>
