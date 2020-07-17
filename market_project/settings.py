@@ -2,17 +2,17 @@ import os
 import environ
 
 ROOT = environ.Path(__file__).path('../' * 2)
-ENV = environ.Env(DJANGO_DEBUG=(bool, True), )
-DEBUG = True
+ENV = environ.Env(DJANGO_DEBUG=(bool, False), )
 if os.path.isfile(ROOT('.env')):
     environ.Env.read_env(ROOT('.env'))
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE_ROOT = ROOT()
-DEBUG = ENV('DJANGO_DEBUG')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+# SECURITY WARNING: don't run with debug turned on in production!
 AWS = os.getenv('AWS', default=False)
+DEBUG = os.getenv('DJANGO_DEBUG')
 sqlite = os.getenv('SQLITE', default=True)
 
 ALLOWED_HOSTS = ['*']
@@ -45,7 +45,7 @@ ROOT_URLCONF = 'market_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ROOT('templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -54,7 +54,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-            'debug': DEBUG,
         },
     },
 ]
@@ -132,12 +131,7 @@ if os.getenv('GAE_APPLICATION', None):
             'NAME': os.getenv('DB_NAME')
         }
     }
-
-elif ENV('CI', default=False):
-    DATABASES = {'default': ENV.db()}
-    DATABASES['default']['TEST'] = ENV.db()
-
-elif ENV('PROXY_TO_CLOUD', default=False):
+elif not os.getenv('GAE_APPLICATION', None) and not sqlite:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -162,7 +156,3 @@ if AWS:
     AWS_DEFAULT_ACL = None
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-STATIC_ROOT = ROOT('staticfiles')
-STATICFILES_DIRS = ['static']
-STATIC_URL = '/static/'
