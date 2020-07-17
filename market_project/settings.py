@@ -5,12 +5,10 @@ ROOT = environ.Path(__file__).path('../' * 2)
 ENV = environ.Env(DJANGO_DEBUG=(bool, False), )
 if os.path.isfile(ROOT('.env')):
     environ.Env.read_env(ROOT('.env'))
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 AWS = os.getenv('AWS', default=False)
 DEBUG = os.getenv('DJANGO_DEBUG')
 sqlite = os.getenv('SQLITE', default=True)
@@ -131,7 +129,10 @@ if os.getenv('GAE_APPLICATION', None):
             'NAME': os.getenv('DB_NAME')
         }
     }
-elif not os.getenv('GAE_APPLICATION', None) and not sqlite:
+elif ENV('CI', default=False):
+    DATABASES['default']['TEST'] = ENV.db()
+
+elif not sqlite:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
