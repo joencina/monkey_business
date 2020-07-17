@@ -136,7 +136,7 @@ elif ENV('CI', default=False):
     DATABASES = {'default': ENV.db()}
     DATABASES['default']['TEST'] = ENV.db()
 
-elif not sqlite:
+elif ENV('PROXY_TO_CLOUD', default=False):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
