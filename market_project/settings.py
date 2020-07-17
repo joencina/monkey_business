@@ -10,7 +10,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 AWS = os.getenv('AWS', default=False)
-DEBUG = os.getenv('DJANGO_DEBUG')
 sqlite = os.getenv('SQLITE', default=True)
 
 ALLOWED_HOSTS = ['*']
