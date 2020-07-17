@@ -2,11 +2,13 @@ import os
 import environ
 
 ROOT = environ.Path(__file__).path('../' * 2)
-ENV = environ.Env(DJANGO_DEBUG=(bool, False), )
+ENV = environ.Env(DJANGO_DEBUG=(bool, True), )
 DEBUG = True
 if os.path.isfile(ROOT('.env')):
     environ.Env.read_env(ROOT('.env'))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITE_ROOT = ROOT()
+DEBUG = ENV('DJANGO_DEBUG')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
@@ -43,7 +45,7 @@ ROOT_URLCONF = 'market_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [ROOT('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -52,6 +54,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'debug': DEBUG,
         },
     },
 ]
@@ -69,8 +72,6 @@ if sqlite:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -161,3 +162,7 @@ if AWS:
     AWS_DEFAULT_ACL = None
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+STATIC_ROOT = ROOT('staticfiles')
+STATICFILES_DIRS = ['static']
+STATIC_URL = '/static/'
