@@ -17,6 +17,11 @@ def test_total_in_single_product_context(client, product):
     assert response.context['total'] is not None
 
 
+@pytest.mark.django_db
+def test_order_str(order):
+    assert order.customer_name in str(order)
+
+
 @pytest.mark.parametrize("num_product, num_second_product", [(5, 4)])
 @pytest.mark.django_db
 def test_shopping_cart_total_changes_appropriately(client, product, second_product, num_product, num_second_product):
@@ -57,28 +62,28 @@ def test_shopping_cart_total_changes_appropriately(client, product, second_produ
     assert client.get(url).context['total'] == 0
 
 
-# @pytest.mark.parametrize("num_product, num_second_product", [(5, 4)])
-# @pytest.mark.django_db
-# def test_checkout(client, product, second_product, num_product, num_second_product, order):
-#     url = reverse('index')
-#     # Adds products
-#     url_add_product = reverse('add_to_cart', args=(product.id,))
-#     for num in range(num_product):
-#         client.get(url_add_product)
-#     assert client.get(url).context['total'] == num_product
-#     url_add_second_product = reverse('add_to_cart', args=(second_product.id,))
-#     for num in range(num_second_product):
-#         client.get(url_add_second_product)
-#     assert client.get(url).context['total'] == num_product + num_second_product
-#     # Checkout
-#     total_price = product.price*num_product + second_product.price*num_second_product
-#     data = {'name': order.customer_name, 'email': order.customer_email,
-#             'address': order.customer_address, 'message': order.message}
-#     client.post(reverse_lazy('checkout'), data)
-#     # Test email is in outbox with the right parameters
-#     assert len(mail.outbox) == 2
-#     assert mail.outbox[0].subjt == f'Order received from {order.customer_name}'
-#     assert f"${total_price}" in mail.outbox[0].body
-#     assert f"shipped to {order.customer_address}" in mail.outbox[0].body
-#     # Test cart is empty
-#     assert client.get(url).context['total'] == 0
+@pytest.mark.parametrize("num_product, num_second_product", [(5, 4)])
+@pytest.mark.django_db
+def test_checkout(client, product, second_product, num_product, num_second_product, order):
+    url = reverse('index')
+    # Adds products
+    url_add_product = reverse('add_to_cart', args=(product.id,))
+    for num in range(num_product):
+        client.get(url_add_product)
+    assert client.get(url).context['total'] == num_product
+    url_add_second_product = reverse('add_to_cart', args=(second_product.id,))
+    for num in range(num_second_product):
+        client.get(url_add_second_product)
+    assert client.get(url).context['total'] == num_product + num_second_product
+    # Checkout
+    total_price = product.price*num_product + second_product.price*num_second_product
+    data = {'name': order.customer_name, 'email': order.customer_email,
+            'address': order.customer_address, 'message': order.message}
+    client.post(reverse_lazy('checkout'), data)
+    # Test email is in outbox with the right parameters
+    assert len(mail.outbox) == 2
+    assert mail.outbox[0].subject == f'Order received from {order.customer_name}'
+    assert f"${total_price}" in mail.outbox[0].body
+    assert f"shipped to {order.customer_address}" in mail.outbox[0].body
+    # Test cart is empty
+    assert client.get(url).context['total'] == 0
