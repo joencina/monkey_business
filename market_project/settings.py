@@ -70,6 +70,7 @@ if sqlite:
         }
     }
 
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -129,8 +130,6 @@ if os.getenv('GAE_APPLICATION', None):
             'NAME': os.getenv('DB_NAME')
         }
     }
-elif ENV('CI', default=False):
-    DATABASES['default']['TEST'] = ENV.db()
 
 elif not sqlite:
     DATABASES = {
