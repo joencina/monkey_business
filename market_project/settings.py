@@ -70,6 +70,9 @@ if sqlite:
         }
     }
 
+if ENV('CI', default=False):
+    DATABASES = {'default': ENV.db()}
+    DATABASES['default']['TEST'] = ENV.db()
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
