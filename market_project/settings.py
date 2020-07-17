@@ -3,6 +3,7 @@ import environ
 
 ROOT = environ.Path(__file__).path('../' * 2)
 ENV = environ.Env(DJANGO_DEBUG=(bool, False), )
+DEBUG = True
 if os.path.isfile(ROOT('.env')):
     environ.Env.read_env(ROOT('.env'))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
