@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Market - Home{% endblock title %}
+{% block cart_items %}
+    {% if total > 0 %}
+        <span class="count">{{ total }}</span>
+    {% endif %}
+{% endblock cart_items %}
+{% block content %}
+    {#    Hero#}
+    <div class="site-blocks-cover" style="background-image: url({% static 'images/pineapple_hero.png' %});"
+         data-aos="fade">
+        <div class="container">
+            <div class="row align-items-start align-items-md-center justify-content-end">
+                <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
+                    <h1 class="mb-2">Hungover Pineapple</h1>
+                    <div class="intro-text text-justify text-md-left">
+                        <p class="mb-4">Hurry up and go grab your wallet to get yourself the most relatable pineapple
+                            for your
+                            Sunday "mornings". </p>
+                        <p class="offset-lg-8">
+                            <a href="{% url 'single_product' 1 %}" class="btn btn-sm btn-primary">get it now!</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#{% block cart_items %}<span class="count">6</span> {% endblock cart_items %}#}
+    {#Featured#}
+    <div class="site-section block-3 site-blocks-2 ">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7 site-section-heading text-center pt-4">
+                    <h2>Featured Today</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="nonloop-block-3 owl-carousel">
+                        {% for product in product_list %}
+                            <div class="item">
+                                <div class="block-4 text-center">
+                                    <figure class="block-4-image">
+                                        <img src="{{ product.image.url }}" class="img-fluid">
+                                    </figure>
+                                    <div class="block-4-text p-4">
+                                        <h3><a href="{% url 'single_product' product.id %}">{{ product.name }}</a></h3>
+                                        <p class="mb-0">{{ product.description }}</p>
+                                        <p class="text-primary font-weight-bold">${{ product.price }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
