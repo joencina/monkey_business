@@ -6,7 +6,7 @@ import pytest
 
 
 @pytest.mark.parametrize("wait_time", (.2,))
-@pytest.mark.skipif(environ.Env(CI=(bool, False), ), reason="CircleCI")
+@pytest.mark.skipif(environ.Env(CI=(bool, False), ), reason="CircleCI/Codecov")
 def test_shopping_cart(driver, live_server, product, featured_product, order, wait_time):
     driver.get(live_server.url)
     time.sleep(wait_time)
