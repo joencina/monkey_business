@@ -1,7 +1,7 @@
 import pytest
 from django import urls
 
-url_list = [('index', b'Market'), ('shop', b'Shop'), ('cart', b'Cart'), ('checkout', b'Checkout'),
+url_list = [('shop', b'Shop'), ('index', b'Market'), ('cart', b'Cart'), ('checkout', b'Checkout'),
             ('thank_you', b'Thank you')]
 
 
