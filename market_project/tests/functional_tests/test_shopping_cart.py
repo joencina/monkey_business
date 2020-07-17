@@ -1,8 +1,10 @@
+import os
 import time
 
 import pytest
 
 
+@pytest.mark.skipif(os.getenv("CI"))
 @pytest.mark.parametrize("wait_time", (.2,))
 def test_shopping_cart(driver, live_server, product, featured_product, order, wait_time):
     driver.get(live_server.url)
