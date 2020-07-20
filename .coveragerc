@@ -16,4 +16,4 @@ omit =
     */apps.py
     .venv/*
     scripts/*
-    tests/*
+    */tests/*
