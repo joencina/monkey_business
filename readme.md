@@ -1,4 +1,4 @@
-# Description
+# Monkey Business
 E-commerce mock-up written in Django. 
 Check it out at http://market.encina.xyz !
 
