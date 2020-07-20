@@ -2,28 +2,32 @@ import pytest
 from django.core import mail
 from django.urls import reverse, reverse_lazy
 
+pytestmark = pytest.mark.django_db
 
-@pytest.mark.django_db
+
 def test_total_in_index_context(client):
     url = reverse('index')
     response = client.get(url)
     assert response.context['total'] is not None
 
 
-@pytest.mark.django_db
 def test_total_in_single_product_context(client, product):
     url = reverse('single_product', args=(product.id,))
     response = client.get(url)
     assert response.context['total'] is not None
 
 
-@pytest.mark.django_db
+def test_total_price_in_cart(client, product):
+    url = reverse('cart')
+    response = client.get(url)
+    assert response.context['total_price'] is not None
+
+
 def test_order_str(order):
     assert order.customer_name in str(order)
 
 
 @pytest.mark.parametrize("num_product, num_second_product", [(5, 4)])
-@pytest.mark.django_db
 def test_shopping_cart_total_changes_appropriately(client, product, second_product, num_product, num_second_product):
     """
     Functional test to check if the shopping cart's total count changes appropriately with operations
@@ -75,8 +79,10 @@ def test_checkout(client, product, second_product, num_product, num_second_produ
     for num in range(num_second_product):
         client.get(url_add_second_product)
     assert client.get(url).context['total'] == num_product + num_second_product
-    # Checkout
-    total_price = product.price*num_product + second_product.price*num_second_product
+    # Cart and Checkout
+    total_price = product.price * num_product + second_product.price * num_second_product
+    cart_url = reverse_lazy('cart')
+    assert client.get(cart_url).context['total_price'] == total_price
     data = {'name': order.customer_name, 'email': order.customer_email,
             'address': order.customer_address, 'message': order.message}
     client.post(reverse_lazy('checkout'), data)
