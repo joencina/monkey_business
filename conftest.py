@@ -16,7 +16,7 @@ def django_db_modify_db_settings():
 @fixture
 def driver(request):
     options = webdriver.ChromeOptions()
-    # options.add_argument("-headless")
+    options.add_argument("-headless")
     browser = webdriver.Chrome(chrome_options=options)
     yield browser
 
