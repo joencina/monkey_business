@@ -16,6 +16,7 @@ omit =
     .venv/*
     scripts/*
     */tests/*
+    */conftest.py
 
 [run]
 omit =
