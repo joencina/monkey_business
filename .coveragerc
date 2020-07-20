@@ -7,6 +7,16 @@ exclude_lines =
     def __repr__
     @abstractmethod
 
+omit =
+    */wsgi.py
+    */settings.py
+    */manage.py
+    */admin.py
+    */apps.py
+    .venv/*
+    scripts/*
+    */tests/*
+
 [run]
 omit =
     */wsgi.py
