@@ -27,3 +27,4 @@ omit =
     .venv/*
     scripts/*
     */tests/*
+    */conftest.py
