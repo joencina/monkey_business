@@ -33,19 +33,3 @@ class OrderFactory(factory.DjangoModelFactory):
     customer_email = factory.Faker("email")
     order_date = factory.Faker("date_object")
     message = factory.Faker("sentence")
-
-
-# class ProductOrderFactory(factory.DjangoModelFactory):
-#     class Meta:
-#         model = models.ProductOrder
-#
-#     order = factory.SubFactory(OrderFactory)
-#     product = factory.SubFactory(ProductFactory)
-#     products_on_order = 0
-#
-#
-# class OrderWithProductFactory(OrderFactory):
-#     membership = factory.RelatedFactory(
-#         ProductOrderFactory,
-#         factory_related_name='order',
-#     )
